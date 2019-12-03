@@ -4,7 +4,7 @@ import { Hero } from './models/hero'
 import { HeroService } from './hero.service'
 import { Arg, Int, ID } from 'type-graphql';
 import { HeroDetailInput } from './dto/hero.input';
-import { GetHeroArgs, DeleteHeroArgs,AddHeroArgs } from './dto/hero.args';
+import { GetHeroArgs, DeleteHeroArgs, AddHeroArgs } from './dto/hero.args';
 import { Double } from 'typeorm';
 
 @Resolver()
@@ -23,12 +23,14 @@ export class HeroResolver {
     async getHeroes(
     ): Promise<Hero[]> {
         await this.heroService.createMockData();
-        return await this.heroService.getHeroes();
+
+        const heroes = await this.heroService.getHeroes();
+        return heroes
     }
 
     @Mutation(returns => Hero, { description: '增加一个英雄' })
     async addHero(
-        @Args(''){name}:AddHeroArgs
+        @Args('') { name }: AddHeroArgs
     ): Promise<Hero> {
         var hero = await this.heroService.createHero(name)
         return hero;
@@ -42,7 +44,7 @@ export class HeroResolver {
         return hero;
     }
     @Mutation(returns => Boolean, { description: '删除一位英雄' })
-    async deleteHero(@Args() {id}:DeleteHeroArgs )
+    async deleteHero(@Args() { id }: DeleteHeroArgs)
         : Promise<boolean> {
         return await this.heroService.deleteHero(id);
     }

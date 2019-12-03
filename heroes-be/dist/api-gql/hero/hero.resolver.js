@@ -27,7 +27,9 @@ let HeroResolver = class HeroResolver {
     }
     async getHeroes() {
         await this.heroService.createMockData();
-        return await this.heroService.getHeroes();
+        const heroes = await this.heroService.getHeroes();
+        console.log(heroes);
+        return heroes;
     }
     async addHero({ name }) {
         var hero = await this.heroService.createHero(name);
